@@ -13,11 +13,16 @@
         <p style="font-size: 14px">{{ properties[key.key] }}</p>
       </div>
     </div>
+    <h3>流程追踪</h3>
+    <ticket-progress :switch-page="switchPage" :ticket="ticket" />
   </div>
 </template>
 <script>
+import TicketProgress from '@/views/users/ticket/components/TicketProgress.vue'
+
 export default {
   name: 'TicketPreview',
+  components: { TicketProgress },
   props: {
     switchPage: {
       type: Function,

@@ -1,18 +1,21 @@
 <template>
-  <div class="app-container" style="display: flex;flex-direction: row">
-    <div style="width: 100% ;">
+  <div class="container">
+    <div class="my-card" style="width: 100% ;">
       <div class="filter-container">
-        <el-input
-          v-model="listQuery.title"
-          class="filter-item"
-          placeholder="搜索"
-          size="small"
-          style="width: 200px;margin-right: 10px"
-        />
+        <div>
+          <el-input
+            v-model="listQuery.query"
+            class="filter-item"
+            placeholder="关键词"
+            size="small"
+            style="width: 200px;margin-right: 10px"
+          />
 
-        <el-button class="filter-item" icon="el-icon-search" size="small" type="primary">
-          搜索
-        </el-button>
+          <el-button class="filter-item" icon="el-icon-search" size="small" type="primary" @click="getList">
+            搜索
+          </el-button>
+        </div>
+        <el-button icon="el-icon-refresh" size="mini" @click="getList"/>
 
       </div>
 
@@ -57,7 +60,7 @@
 </template>
 
 <script>
-import { getTraceList } from '@/api/trace'
+import {getTraceList} from '@/api/trace'
 
 export default {
   name: 'ComplexTable',

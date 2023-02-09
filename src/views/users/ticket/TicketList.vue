@@ -37,6 +37,7 @@
         </el-table-column>
         <el-table-column
           label="标题"
+          min-width="200"
           prop="name"
         >
           <template slot-scope="{row}">
@@ -46,7 +47,7 @@
         <el-table-column
           label="当前状态"
           prop="status"
-          width="100"
+          width="150"
         >
           <template slot-scope="{row}">
             <el-tag :type="getStatusColor(row.status)">{{ row.status|statusFormat }}</el-tag>
@@ -67,8 +68,7 @@
           <template slot-scope="{row}">
             <el-button size="mini" @click="showPreview(row)">预览</el-button>
             <!--            <el-button icon="el-icon-switch-button" size="mini">结单</el-button>-->
-            <el-button :disabled="isClosed(row.status)" size="mini" @click="handleCloseTicket(row.id)">撤销</el-button>
-            <el-button size="mini" @click="showProgress(row)">流程追踪</el-button>
+            <el-button :disabled="isClosed(row.status)" size="mini" @click="handleCloseTicket(row.id)">结单</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -85,9 +85,6 @@
         />
       </div>
     </div>
-    <div v-if="currentPage==='progress'" class="my-card" style="width: 100% ;">
-      <ticket-progress :switch-page="switchPage" :ticket="currentTicket" />
-    </div>
     <div v-if="currentPage==='preview'" class="my-card" style="width: 100% ;">
       <ticket-preview :switch-page="switchPage" :ticket="currentTicket" />
     </div>
@@ -96,12 +93,11 @@
 
 <script>
 import { closeTicket, getTicketList } from '@/api/ticket'
-import TicketProgress from '@/views/users/ticket/components/TicketProgress'
 import TicketPreview from '@/views/users/ticket/components/TicketPreview.vue'
 
 export default {
   name: 'TicketList',
-  components: { TicketProgress, TicketPreview },
+  components: { TicketPreview },
   data() {
     return {
       list: [],
@@ -164,7 +160,7 @@ export default {
     handleCloseTicket(ticketId) {
       closeTicket(ticketId).then(response => {
         this.$message({
-          message: '撤销成功',
+          message: '结单成功',
           type: 'success'
         })
         this.getList()

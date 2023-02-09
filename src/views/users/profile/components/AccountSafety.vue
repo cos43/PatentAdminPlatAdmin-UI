@@ -1,7 +1,7 @@
 <template>
   <el-form>
     <el-form-item label="密码">
-      <el-input placeholder="请设置密码" type="password" />
+      <el-input v-model="password" placeholder="请设置密码" type="password" />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="submit">更新</el-button>
@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import { resetPassword } from '@/api/user'
+
 export default {
   props: {
     user: {
@@ -22,12 +24,15 @@ export default {
       }
     }
   },
+  data() {
+    return {
+      password: ''
+    }
+  },
   methods: {
     submit() {
-      this.$message({
-        message: 'User information has been updated successfully',
-        type: 'success',
-        duration: 5 * 1000
+      resetPassword({ userId: 1, password: this.password }).then(res => {
+        this.$message.success('更新成功')
       })
     }
   }

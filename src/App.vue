@@ -12,7 +12,7 @@ export default {
 <style>
 .container {
   padding: 15px !important;
-  background-color: white;
+  background-color: #e9eff8;
 }
 
 .radius {

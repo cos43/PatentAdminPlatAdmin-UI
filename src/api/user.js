@@ -44,3 +44,21 @@ export function updateInfo(data) {
     data
   })
 }
+
+// modify password
+export function updatePassword(data) {
+  return request({
+    url: '/user/pwd/set',
+    method: 'put',
+    data
+  })
+}
+
+// reset password
+export function resetPassword(data) {
+  return request({
+    url: '/user/pwd/reset',
+    method: 'put',
+    data
+  })
+}

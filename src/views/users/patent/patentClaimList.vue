@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <div class="my-card" style="width: 100%;background-color: white">
+  <div class="container" style="display: flex;flex-direction: row">
+    <div class="my-card" style="width: 100% ;overflow-y: auto">
       <div class="filter-container">
         <div>
           <el-input

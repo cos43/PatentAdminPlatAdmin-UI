@@ -1,6 +1,5 @@
 <template>
   <div>
-    <el-page-header content="流程追踪" @back="switchPage('index')" />
 
     <div
       style="max-height: 500px;overflow-y: auto;margin: 20px 0;border:1px solid lightgray;padding: 10px;border-radius: 0.15rem"

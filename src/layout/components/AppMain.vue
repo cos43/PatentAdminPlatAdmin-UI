@@ -4,7 +4,7 @@
       <keep-alive :include="cachedViews">
         <router-view
           :key="key"
-          style="background-color: rgb(245, 246, 248)!important;height: calc(100vh - 50px);overflow-y: auto"
+          style="background-color: #eef5f9!important;height: calc(100vh - 50px);overflow-y: auto"
         />
       </keep-alive>
     </transition>
