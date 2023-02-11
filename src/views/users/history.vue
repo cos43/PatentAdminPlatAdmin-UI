@@ -108,7 +108,7 @@ export default {
       this.listLoading = true
       getTraceList(this.listQuery).then(response => {
         this.results = response.data.data
-        this.list = response.data.data.list.reverse()
+        this.list = response.data.data.list
         this.listLoading = false
       })
     }

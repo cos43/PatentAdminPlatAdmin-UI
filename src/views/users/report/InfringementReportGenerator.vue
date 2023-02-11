@@ -3,25 +3,13 @@
     <div class="my-card">
       <h2 style="text-align: center">侵权报告</h2>
       <el-form ref="infringementForm" :model="form" :rules="formRules">
-        <!--        <el-form-item label="选择专利">-->
-        <!--          <el-select v-model="patent" placeholder="仅能选择已经认领的专利" style="width: 100%" value="请选择">-->
-        <!--            <el-option-->
-        <!--              v-for="option in patents"-->
-        <!--              :key="option.PNM"-->
-        <!--              :label="option.patentProperties.TI"-->
-        <!--              :value="option.PNM"-->
-        <!--            />-->
-        <!--          </el-select>-->
-        <!--        </el-form-item>-->
         <el-form-item label="专利标题" prop="title">
           <el-input v-model="form.title" />
         </el-form-item>
         <el-form-item label="评估目的" prop="purpose">
           <el-input v-model="form.purpose" rows="6" type="textarea" />
         </el-form-item>
-        <el-form-item label="目标估值" prop="targetValue">
-          <el-input v-model="form.targetValue" type="number" />
-        </el-form-item>
+
         <el-form-item label="申请人情况" prop="applicant">
           <el-input v-model="form.applicant" rows="6" type="textarea" />
         </el-form-item>
@@ -47,8 +35,6 @@ export default {
         title: '',
         // 评估目的
         purpose: '',
-        // 目标估值
-        targetValue: '',
         // 申请人情况
         applicant: ''
       },
@@ -58,9 +44,6 @@ export default {
         ],
         purpose: [
           { required: true, message: '请输入评估目的', trigger: 'blur' }
-        ],
-        targetValue: [
-          { required: true, message: '请输目标估值', trigger: 'blur' }
         ],
         applicant: [
           { required: true, message: '请输入申请人', trigger: 'blur' }
@@ -86,7 +69,6 @@ export default {
             ...this.form, keys: [
               { key: 'title', value: '专利标题' },
               { key: 'purpose', value: '评估目的' },
-              { key: 'targetValue', value: '目标估值' },
               { key: 'applicant', value: '申请人信息' }
             ]
           }

@@ -32,3 +32,10 @@ export function finishTicket(ticketId, data) {
     data
   })
 }
+
+export function getTicket(ticketId) {
+  return request({
+    url: `/admin-agent/tickets/${ticketId}`,
+    method: 'get'
+  })
+}

@@ -90,7 +90,7 @@ export default {
   name: 'PatentValuation',
   data() {
     return {
-
+      list: [],
       listLoading: true,
       listQuery: {
         pageIndex: 1,
@@ -126,6 +126,8 @@ export default {
           item.patentProperties = JSON.parse(item.patentProperties)
         })
         this.list = results.list
+        console.log(this.list)
+
         this.results = results
 
         this.listLoading = false

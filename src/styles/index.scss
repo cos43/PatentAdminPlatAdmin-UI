@@ -172,16 +172,15 @@ aside {
 }
 
 .filter-container {
-  padding-bottom: 10px;
   display: flex;
   flex-direction: row;
   align-items: center;
+  padding-bottom: 10px;
   justify-content: space-between;
 
   .filter-item {
     display: inline-block;
     vertical-align: middle;
-    margin-bottom: 10px;
   }
 }
 

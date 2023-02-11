@@ -105,7 +105,7 @@
 <script>
 
 import { uploadFile } from '@/api/upload'
-import { finishTicket, updateTicket } from '@/api/ticket'
+import { finishTicket, getTicket, updateTicket } from '@/api/ticket'
 import DownloadAble from '@/views/users/components/DownloadAble.vue'
 
 export default {
@@ -168,8 +168,11 @@ export default {
       updateTicket(this.ticket.id, {
         optMsg: this.optMsg
       }).then(res => {
-        console.log(res)
         this.$message.success('留言成功')
+        getTicket(this.ticket.id).then(res => {
+          this.ticket = res.data.data
+          this.optMsg = ''
+        })
       })
     },
     uploadReport() {

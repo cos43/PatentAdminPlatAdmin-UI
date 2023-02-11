@@ -40,16 +40,38 @@ export const constantRoutes = [{
     component: () => import('@/views/users/sysuser/SysUserList.vue'),
     name: 'UserList',
     meta: { title: '用户管理', icon: 'user' }
-  }]
+  },
+  {
+    path: 'update/:id',
+    component: () => import('@/views/users/sysuser/SysUserUpdate.vue'),
+    name: 'UserUpdate',
+    hidden: true,
+    meta: { title: '用户更新', icon: 'user' }
+  }
+  ]
 },
 
 {
-  path: '/dept', component: Layout, meta: { title: '团队管理', icon: 'el-icon-s-help' }, children: [{
-    path: 'index',
-    component: () => import('@/views/users/dept/index.vue'),
-    name: 'deptList',
-    meta: { title: '团队管理', icon: 'el-icon-more' }
-  }]
+  path: '/dept', component: Layout, meta: { title: '团队管理', icon: 'el-icon-s-help' }, children: [
+    {
+      path: 'list',
+      component: () => import('@/views/users/dept/DeptList.vue'),
+      name: 'deptList',
+      meta: { title: '团队管理', icon: 'el-icon-more' }
+    },
+    {
+      path: 'create',
+      component: () => import('@/views/users/dept/DeptCreate.vue'),
+      name: 'deptCreate',
+      hidden: true
+    },
+    {
+      path: 'update/:id',
+      component: () => import('@/views/users/dept/DeptUpdate.vue'),
+      name: 'deptUpdate',
+      hidden: true
+    }
+  ]
 },
 
 {
@@ -69,14 +91,14 @@ export const constantRoutes = [{
   ]
 },
 
-{
-  path: '/profile', component: Layout, children: [{
-    path: 'index',
-    component: () => import('@/views/users/profile/index'),
-    name: 'Profile',
-    meta: { title: '个人资料', icon: 'profile' }
-  }]
-},
+// {
+//   path: '/profile', component: Layout, children: [{
+//     path: 'index',
+//     component: () => import('@/views/users/profile/index'),
+//     name: 'Profile',
+//     meta: { title: '个人资料', icon: 'profile' }
+//   }]
+// },
 {
   path: '/history', component: Layout, children: [{
     path: 'index',

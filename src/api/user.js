@@ -70,3 +70,18 @@ export function getAllUsers() {
     method: 'get'
   })
 }
+
+export function getUserInfoByUserId(userId) {
+  return request({
+    url: `/sys-user/${userId}`,
+    method: 'get'
+  })
+}
+
+export function updateUserInfo(data) {
+  return request({
+    url: `/sys-user/`,
+    method: 'put',
+    data
+  })
+}

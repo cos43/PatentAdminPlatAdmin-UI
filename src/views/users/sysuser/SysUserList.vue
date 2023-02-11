@@ -1,5 +1,20 @@
 <template>
   <div class="container">
+    <el-dialog :visible.sync="resetPasswordDialog" title="重置密码">
+      <el-form>
+        <el-form-item label="新密码">
+          <el-input v-model="resetPasswordForm.password" type="password" />
+        </el-form-item>
+        <el-form-item label="确认密码">
+          <el-input v-model="resetPasswordForm.confirmPassword" type="password" />
+        </el-form-item>
+        <div style="display: flex;flex-direction: row;align-items: center;justify-content: center">
+          <el-form-item>
+            <el-button type="primary" @click="resetPassword">确定</el-button>
+          </el-form-item>
+        </div>
+      </el-form>
+    </el-dialog>
     <div class="my-card" style="width: 100% ;overflow-y: auto">
       <div class="filter-container">
         <div>
@@ -18,7 +33,6 @@
         <el-button icon="el-icon-refresh" size="mini" @click="getList" />
 
       </div>
-
       <el-table
         v-loading="listLoading"
         :data="list"
@@ -52,10 +66,14 @@
             <span>{{ row.roleId === 1 ? '管理员' : '普通用户' }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" class-name="small-padding fixed-width" label="操作" width="200">
+        <el-table-column align="center" class-name="small-padding fixed-width" label="操作" width="280">
           <template slot-scope="row">
-            <el-button size="mini" @click="unClaimClick(row)">
+            <el-button size="mini" @click="$router.push(`/user/update/${row.row.userId}`)">
               修改用户信息
+            </el-button>
+
+            <el-button size="mini" type="warning" @click="resetPasswordDialog=true;currentUser=row.row.userId">
+              重置密码
             </el-button>
 
           </template>
@@ -73,17 +91,6 @@
           @current-change="handleCurrentChange"
         />
       </div>
-      <el-dialog :visible.sync="editDescFromVisible" center title="修改备注" width="30%">
-        <el-form>
-          <el-form-item label="备注">
-            <el-input v-model="description" placeholder="修改备注" type="textarea" />
-          </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="editDescFromVisible = false">取消</el-button>
-          <el-button type="primary" @click="handleUpdateDesc">确定</el-button>
-        </div>
-      </el-dialog>
 
     </div>
 
@@ -91,34 +98,31 @@
 </template>
 
 <script>
-import { getAllUsers } from '@/api/user'
+import { getAllUsers, resetPassword } from '@/api/user'
 
 export default {
-  name: 'ComplexTable',
+  name: 'SysUserList',
+
   data() {
     return {
-      patents: null,
-      reportList: null,
-      patentId: 0,
-      editDescFromVisible: false,
-      currentPatent: null,
-      description: '',
-      reportDialogFormVisible: false,
+      currentUser: null,
       list: null,
-      claim: [],
       listLoading: true,
       listQuery: {
         pageIndex: 1,
         pageSize: 10,
         query: ''
       },
-      flag: 0,
+      resetPasswordForm: {
+        password: '',
+        confirmPassword: ''
+      },
+      resetPasswordDialog: false,
       form: {
         patentId: '',
         type: ''
       },
-      results: { count: 0 },
-      formLabelWidth: '120px'
+      results: { count: 0 }
 
     }
   },
@@ -145,6 +149,40 @@ export default {
         this.list = response.data.data.list
         console.log(this.results)
         this.listLoading = false
+      })
+    },
+    resetPassword() {
+      if (this.resetPasswordForm.password.length < 6) {
+        this.$message({
+          type: 'error',
+          message: '密码长度不能小于6位!'
+        })
+        return
+      }
+      if (this.resetPasswordForm.password !== this.resetPasswordForm.confirmPassword) {
+        this.$message({
+          type: 'error',
+          message: '两次输入的密码不一致!'
+        })
+        return
+      }
+      this.$confirm('此操作将重置密码, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        resetPassword({ userId: this.currentUser, password: this.resetPasswordForm.password }).then(response => {
+          this.$message({
+            type: 'success',
+            message: '重置成功!'
+          })
+          this.resetPasswordDialog = false
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消重置'
+        })
       })
     }
 
