@@ -64,11 +64,14 @@
         <el-table-column
           label="操作"
           prop="op"
+          width="200"
         >
           <template slot-scope="{row}">
-            <el-button size="mini" @click="showPreview(row)">预览</el-button>
+            <el-button size="mini" @click="showPreview(row)">处理工单</el-button>
             <!--            <el-button icon="el-icon-switch-button" size="mini">结单</el-button>-->
-            <el-button :disabled="isClosed(row.status)" size="mini" @click="handleCloseTicket(row.id)">结单</el-button>
+            <el-button :disabled="isClosed(row.status)" size="mini" type="success" @click="handleCloseTicket(row.id)">
+              {{ isClosed(row.status) ? '已结单' : '结单' }}
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -137,10 +140,6 @@ export default {
     showPreview(row) {
       this.currentTicket = row
       this.currentPage = 'preview'
-    },
-    showProgress(row) {
-      this.currentTicket = row
-      this.currentPage = 'progress'
     },
     isClosed(status) {
       return status === 'closed' || status === 'finished'

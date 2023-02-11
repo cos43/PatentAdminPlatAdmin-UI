@@ -12,14 +12,22 @@ export function getTicketList(query) {
 // 撤销工单
 export function closeTicket(ticketId) {
   return request({
-    url: `/user-agent/tickets/${ticketId}/close`,
+    url: `/admin-agent/tickets/${ticketId}/close`,
     method: 'put'
   })
 }
 
 export function updateTicket(ticketId, data) {
   return request({
-    url: `/user-agent/tickets/${ticketId}`,
+    url: `/admin-agent/tickets/${ticketId}?type=report`,
+    method: 'put',
+    data
+  })
+}
+
+export function finishTicket(ticketId, data) {
+  return request({
+    url: `/admin-agent/tickets/${ticketId}/finish`,
     method: 'put',
     data
   })

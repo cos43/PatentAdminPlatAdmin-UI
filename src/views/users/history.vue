@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="my-card" style="width: 100% ;">
+    <div class="my-card" style="width: 100% ;overflow-y: auto">
       <div class="filter-container">
         <div>
           <el-input
@@ -15,7 +15,7 @@
             搜索
           </el-button>
         </div>
-        <el-button icon="el-icon-refresh" size="mini" @click="getList"/>
+        <el-button icon="el-icon-refresh" size="mini" @click="getList" />
 
       </div>
 
@@ -25,7 +25,7 @@
         border
         fit
         highlight-current-row
-        style="width: 100%;  border-radius: 10px!important;"
+        style="width: 100%;"
       >
         <el-table-column
           align="center"
@@ -54,13 +54,24 @@
         </el-table-column>
 
       </el-table>
-
+      <div style="display:flex;flex-direction: row;justify-content: center;margin-top: 15px;">
+        <el-pagination
+          :current-page="listQuery.pageIndex"
+          :hide-on-single-page="false"
+          :page-size="100"
+          :page-sizes="[10,20,40]"
+          :total="results.count"
+          layout="total, sizes, prev, pager, next, jumper"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import {getTraceList} from '@/api/trace'
+import { getTraceList } from '@/api/trace'
 
 export default {
   name: 'ComplexTable',
@@ -70,12 +81,9 @@ export default {
       list: null,
       listLoading: true,
       listQuery: {
-        page: 1,
-        limit: 20,
-        importance: undefined,
-        title: undefined,
-        type: undefined,
-        sort: '+id'
+        pageIndex: 1,
+        pageSize: 10,
+        query: ''
       }
 
     }
@@ -84,9 +92,22 @@ export default {
     this.getList()
   },
   methods: {
+    handleSearch() {
+      this.listQuery.pageIndex = 1
+      this.getList()
+    },
+    handleSizeChange(val) {
+      this.listQuery.pageSize = val
+      this.getList()
+    },
+    handleCurrentChange(val) {
+      this.listQuery.pageIndex = val
+      this.getList()
+    },
     getList() {
       this.listLoading = true
       getTraceList(this.listQuery).then(response => {
+        this.results = response.data.data
         this.list = response.data.data.list.reverse()
         this.listLoading = false
       })

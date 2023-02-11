@@ -28,6 +28,13 @@ export function getClaimedPatents(data) {
   })
 }
 
+// 获取所有专利
+export function getAllPatents(data) {
+  return request({
+    url: '/user-agent/patent', method: 'get', params: data
+  })
+}
+
 // 更新关注的专利描述
 export function updateFocusPatentDescription(PNM, desc) {
   return request({

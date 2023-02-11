@@ -27,7 +27,7 @@
         highlight-current-row
         style="width: 100%; "
       >
-        <el-table-column align="center" label="PNM" prop="id" sortable="custom" width="140">
+        <el-table-column align="center" label="PNM" prop="id" width="140">
           <template slot-scope="{row}">
             <span>{{ row.patentProperties.PNM }}</span>
           </template>
@@ -120,8 +120,7 @@
 
 <script>
 import addToPackage from '@/views/users/components/AddToPackage'
-import { getClaimedPatents, unClaimPatent, updateClaimPatentDescription } from '@/api/patent'
-import { ApplyReport, userGetReportListByPaId } from '@/api/report'
+import { getAllPatents, unClaimPatent, updateClaimPatentDescription } from '@/api/patent'
 
 export default {
   name: 'ComplexTable',
@@ -171,8 +170,8 @@ export default {
     },
     getList() {
       this.listLoading = true
-      getClaimedPatents(this.listQuery).then(response => {
-        const results = response.data.data.list
+      getAllPatents(this.listQuery).then(response => {
+        const results = response.data.data
         results.map(item => {
           item.patentProperties = JSON.parse(item.patentProperties)
         })
@@ -213,41 +212,6 @@ export default {
       this.editDescFromVisible = true
       this.currentPatent = row
       this.description = row.desc
-    },
-
-    InsertReport(form) {
-      this.flag = 0
-      this.reportDialogFormVisible = false
-      this.form.patentId = this.patentId
-      console.log(this.form)
-      userGetReportListByPaId(this.form.patentId).then(response => {
-        this.reportList = response.data.data
-        this.listLoading = false
-        if (this.reportList !== null) {
-          for (let i = 0; i < this.reportList.length && this.flag === 0; i++) {
-            if (this.reportList[i].Type === this.form.type) {
-              this.$message({
-                message: '您已申请该类型报告，点击详情查看',
-                type: 'error',
-                duration: 1000
-              })
-              this.flag = 1
-              break
-            }
-          }
-        }
-        if (this.flag === 0) {
-          ApplyReport(form).then(response => {
-            if (response.data.code === 200) {
-              this.$message({
-                message: '申请成功',
-                type: 'success',
-                duration: 1000
-              })
-            }
-          })
-        }
-      })
     }
   }
 }

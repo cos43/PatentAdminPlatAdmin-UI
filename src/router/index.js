@@ -34,12 +34,12 @@ export const constantRoutes = [{
   path: '/login', component: () => import('@/views/users/login')
 },
 {
-  path: '/patent', component: Layout, meta: { title: '专利管理', icon: 'patent' },
+  path: '/user', component: Layout, meta: { title: '用户管理', icon: 'user' },
   children: [{
-    path: 'claim',
-    component: () => import('@/views/users/patent/patentClaimList'),
-    name: 'Patent',
-    meta: { title: '专利管理', icon: 'patent' }
+    path: 'list',
+    component: () => import('@/views/users/sysuser/SysUserList.vue'),
+    name: 'UserList',
+    meta: { title: '用户管理', icon: 'user' }
   }]
 },
 

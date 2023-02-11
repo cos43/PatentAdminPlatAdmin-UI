@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="my-card" style="width: 100% ;">
+    <div class="my-card" style="width: 100% ;overflow-y: auto">
       <div class="filter-container">
         <div>
           <el-input
@@ -25,56 +25,47 @@
         :stripe="true"
         fit
         highlight-current-row
-        style="width: 100%;"
+        style="width: 100%; "
       >
-
-        <el-table-column align="center" label="ID" prop="id" width="60">
+        <el-table-column align="center" label="用户ID" prop="userId" width="140">
           <template slot-scope="{row}">
-            <span>{{ row.reportId }}</span>
+            <span>{{ row.userId }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="报告类型" min-width="60">
+        <el-table-column align="center" label="用户名" min-width="140" prop="phone">
           <template slot-scope="{row}">
-            <span> {{ row.reportType }} </span>
-          </template>
-
-        </el-table-column>
-        <el-table-column align="center" label="报告名称" min-width="150px">
-          <template slot-scope="{row}">
-            <span>{{ row.reportName }}</span>
-          </template>
-
-        </el-table-column>
-        <el-table-column align="center" label="申请时间" width="180px">
-          <template slot-scope="{row}">
-            <span>{{ row.CreatedAt|localTime }}</span>
+            <span>{{ row.nickName }}</span>
           </template>
         </el-table-column>
-
-        <el-table-column align="center" class-name="small-padding fixed-width" label="报告文件" width="200">
+        <el-table-column align="center" label="电话号码" prop="phone" width="200">
           <template slot-scope="{row}">
-            <el-button
-              size="mini"
-              type="light"
-            >
-              预览
+            <span>{{ row.phone }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="性别" prop="sex" width="200">
+          <template slot-scope="{row}">
+            <span>{{ row.sex === 1 ? '男' : '女' }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="角色" prop="roleId" width="200">
+          <template slot-scope="{row}">
+            <span>{{ row.roleId === 1 ? '管理员' : '普通用户' }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" class-name="small-padding fixed-width" label="操作" width="200">
+          <template slot-scope="row">
+            <el-button size="mini" @click="unClaimClick(row)">
+              修改用户信息
             </el-button>
-            <el-button
-              size="mini"
-              type="primary"
-              @click="handleReportDownload(row)"
-            >
-              下载
-            </el-button>
+
           </template>
         </el-table-column>
-
       </el-table>
       <div style="display:flex;flex-direction: row;justify-content: center;margin-top: 15px;">
         <el-pagination
           :current-page="listQuery.pageIndex"
           :hide-on-single-page="false"
-          :page-size="listQuery.pageSize"
+          :page-size="100"
           :page-sizes="[10,20,40]"
           :total="results.count"
           layout="total, sizes, prev, pager, next, jumper"
@@ -82,29 +73,53 @@
           @current-change="handleCurrentChange"
         />
       </div>
+      <el-dialog :visible.sync="editDescFromVisible" center title="修改备注" width="30%">
+        <el-form>
+          <el-form-item label="备注">
+            <el-input v-model="description" placeholder="修改备注" type="textarea" />
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="editDescFromVisible = false">取消</el-button>
+          <el-button type="primary" @click="handleUpdateDesc">确定</el-button>
+        </div>
+      </el-dialog>
+
     </div>
 
   </div>
-
 </template>
-<script>
 
-import { userReportList } from '@/api/report'
-import { generateNoveltyReport } from '@/views/users/utils'
+<script>
+import { getAllUsers } from '@/api/user'
 
 export default {
-  name: 'ReportList',
-
+  name: 'ComplexTable',
   data() {
     return {
+      patents: null,
+      reportList: null,
+      patentId: 0,
+      editDescFromVisible: false,
+      currentPatent: null,
+      description: '',
+      reportDialogFormVisible: false,
       list: null,
+      claim: [],
       listLoading: true,
       listQuery: {
-        pageSize: 1,
-        pageIndex: 20,
+        pageIndex: 1,
+        pageSize: 10,
         query: ''
       },
-      results: {}
+      flag: 0,
+      form: {
+        patentId: '',
+        type: ''
+      },
+      results: { count: 0 },
+      formLabelWidth: '120px'
+
     }
   },
   created() {
@@ -123,30 +138,14 @@ export default {
       this.listQuery.pageIndex = val
       this.getList()
     },
-    isImage(filePath) {
-      filePath = filePath || ''
-      return filePath.endsWith('.jpg') || filePath.endsWith('.png') || filePath.endsWith('.jpeg')
-    },
     getList() {
       this.listLoading = true
-      userReportList().then(response => {
-        this.list = response.data.data.list
+      getAllUsers(this.listQuery).then(response => {
         this.results = response.data.data
+        this.list = response.data.data.list
+        console.log(this.results)
         this.listLoading = false
       })
-    },
-    handleNoveltyReportDownload(report) {
-      generateNoveltyReport(report.reportName, report.reportProperties)
-    },
-    handleOtherReportDownload(report) {
-      console.log(report)
-    },
-    handleReportDownload(row) {
-      if (row.reportType === '查新报告') {
-        this.handleNoveltyReportDownload(row)
-      } else {
-        this.handleOtherReportDownload(row)
-      }
     }
 
   }

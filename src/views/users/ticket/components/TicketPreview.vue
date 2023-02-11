@@ -1,20 +1,32 @@
 <template>
   <div>
     <el-page-header content="预览" @back="switchPage('index')" />
+    <el-collapse v-model="activeNames" style="margin-top: 20px">
+      <el-collapse-item name="1">
+        <template slot="title">
+          <div style="font-size: 20px">工单信息</div>
+        </template>
+        <div>
+          <div>
+            <h4>{{ ticket.name }}</h4>
+          </div>
+          <h3>表单信息</h3>
+          <div v-for="key in properties.keys" :key="key">
+            <h4>{{ key.value }}</h4>
+            <p style="font-size: 14px">{{ properties[key.key] }}</p>
+          </div>
+        </div>
+      </el-collapse-item>
+      <el-collapse-item name="2">
+        <template slot="title">
+          <div style="font-size: 20px">流程追踪</div>
+        </template>
+        <div>
+          <ticket-progress :switch-page="switchPage" :ticket="ticket" />
+        </div>
+      </el-collapse-item>
+    </el-collapse>
 
-    <div class="ticket-preview">
-      <h3>工单信息</h3>
-      <div>
-        <h4>{{ ticket.name }}</h4>
-      </div>
-      <h3>表单信息</h3>
-      <div v-for="key in properties.keys" :key="key">
-        <h4>{{ key.value }}</h4>
-        <p style="font-size: 14px">{{ properties[key.key] }}</p>
-      </div>
-    </div>
-    <h3>流程追踪</h3>
-    <ticket-progress :switch-page="switchPage" :ticket="ticket" />
   </div>
 </template>
 <script>
@@ -38,7 +50,8 @@ export default {
   },
   data() {
     return {
-      properties: []
+      properties: [],
+      activeNames: ['2']
     }
   },
   watch: {
