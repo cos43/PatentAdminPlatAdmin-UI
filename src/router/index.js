@@ -23,18 +23,21 @@ export const constantRoutes = [{
   path: '/404', component: () => import('@/views/error-page/404'), hidden: true
 }, {
   path: '/401', component: () => import('@/views/error-page/401'), hidden: true
-}, {
-  path: '/', component: Layout, redirect: '/dashboard', children: [{
-    path: 'dashboard',
-    component: () => import('@/views/users/dashboard/index'),
-    name: 'Dashboard',
-    meta: { title: '知识产权转化手册后台管理', icon: 'dashboard', affix: true }
-  }]
-}, {
+},
+// {
+//   path: '/', component: Layout, redirect: '/dashboard', children: [{
+//     path: 'dashboard',
+//     component: () => import('@/views/users/sysuser/SysUserList.vue'),
+//     name: 'Dashboard',
+//     meta: { title: '知识产权转化手册后台管理', icon: 'dashboard', affix: true }
+//   }]
+// },
+{
   path: '/login', component: () => import('@/views/users/login')
 },
+
 {
-  path: '/user', component: Layout, meta: { title: '用户管理', icon: 'user' },
+  path: '/', component: Layout, meta: { title: '用户管理', icon: 'user' },
   children: [{
     path: 'list',
     component: () => import('@/views/users/sysuser/SysUserList.vue'),
@@ -47,10 +50,16 @@ export const constantRoutes = [{
     name: 'UserUpdate',
     hidden: true,
     meta: { title: '用户更新', icon: 'user' }
+  },
+  {
+    path: 'user/update/:id',
+    component: () => import('@/views/users/sysuser/SysUserUpdate.vue'),
+    name: 'UserUpdate',
+    hidden: true,
+    meta: { title: '用户更新', icon: 'user' }
   }
   ]
 },
-
 {
   path: '/dept', component: Layout, meta: { title: '团队管理', icon: 'el-icon-s-help' }, children: [
     {
