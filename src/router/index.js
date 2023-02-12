@@ -24,20 +24,15 @@ export const constantRoutes = [{
 }, {
   path: '/401', component: () => import('@/views/error-page/401'), hidden: true
 },
-// {
-//   path: '/', component: Layout, redirect: '/dashboard', children: [{
-//     path: 'dashboard',
-//     component: () => import('@/views/users/sysuser/SysUserList.vue'),
-//     name: 'Dashboard',
-//     meta: { title: '知识产权转化手册后台管理', icon: 'dashboard', affix: true }
-//   }]
-// },
+{
+  path: '/', component: Layout, redirect: '/user/list'
+},
 {
   path: '/login', component: () => import('@/views/users/login')
 },
 
 {
-  path: '/', component: Layout, meta: { title: '用户管理', icon: 'user' },
+  path: '/user', component: Layout, meta: { title: '用户管理', icon: 'user' },
   children: [{
     path: 'list',
     component: () => import('@/views/users/sysuser/SysUserList.vue'),
