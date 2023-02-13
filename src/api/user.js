@@ -64,10 +64,11 @@ export function resetPassword(data) {
 }
 
 // get all users
-export function getAllUsers() {
+export function getAllUsers(params) {
   return request({
     url: '/sys-user',
-    method: 'get'
+    method: 'get',
+    params
   })
 }
 

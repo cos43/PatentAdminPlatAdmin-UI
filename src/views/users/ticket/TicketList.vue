@@ -11,7 +11,7 @@
             style="width: 200px;margin-right: 10px"
           />
 
-          <el-button class="filter-item" disabled icon="el-icon-search" size="small" type="primary">
+          <el-button class="filter-item" icon="el-icon-search" size="small" type="primary" @click="getList">
             搜索
           </el-button>
         </div>

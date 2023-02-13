@@ -13,7 +13,7 @@
             style="width: 200px;margin-right: 10px"
           />
 
-          <el-button class="filter-item" disabled icon="el-icon-search" size="small" type="primary">
+          <el-button class="filter-item" icon="el-icon-search" size="small" type="primary" @click="getList">
             搜索
           </el-button>
           <el-button icon="el-icon-plus" size="small" type="primary">
@@ -77,6 +77,18 @@
         </el-table-column>
 
       </el-table>
+      <div style="display:flex;flex-direction: row;justify-content: center;margin-top: 15px;">
+        <el-pagination
+          :current-page="listQuery.pageIndex"
+          :hide-on-single-page="false"
+          :page-size="listQuery.pageSize"
+          :page-sizes="[10,20,40]"
+          :total="results.count"
+          layout="total, sizes, prev, pager, next, jumper"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        />
+      </div>
 
     </div>
 
@@ -107,10 +119,23 @@ export default {
     this.getList()
   },
   methods: {
+    handleSearch() {
+      this.listQuery.pageIndex = 1
+      this.getList()
+    },
+    handleSizeChange(val) {
+      this.listQuery.pageSize = val
+      this.getList()
+    },
+    handleCurrentChange(val) {
+      this.listQuery.pageIndex = val
+      this.getList()
+    },
     getList() {
       this.listLoading = true
       getDeptList().then(response => {
-        this.list = response.data.data
+        this.list = response.data.data.list
+        this.results = response.data.data
         this.listLoading = false
       })
     },

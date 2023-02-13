@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 获取工单列表
 export function getTicketList(query) {
   return request({
-    url: `/user-agent/tickets`,
+    url: `/admin-agent/tickets`,
     method: 'get',
     params: query
   })
