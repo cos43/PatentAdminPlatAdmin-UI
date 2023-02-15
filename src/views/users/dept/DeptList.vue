@@ -133,7 +133,7 @@ export default {
     },
     getList() {
       this.listLoading = true
-      getDeptList().then(response => {
+      getDeptList(this.listQuery).then(response => {
         this.list = response.data.data.list
         this.results = response.data.data
         this.listLoading = false

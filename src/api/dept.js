@@ -1,10 +1,11 @@
 import request from '@/utils/request'
 
 // 用户查看所有团队
-export function getDeptList() {
+export function getDeptList(params) {
   return request({
     url: '/dept',
-    method: 'get'
+    method: 'get',
+    params
   })
 }
 
