@@ -45,9 +45,43 @@ export function updateInfo(data) {
   })
 }
 
-export function modifyPassword(data) {
+// modify password
+export function updatePassword(data) {
   return request({
     url: '/user/pwd/set',
+    method: 'put',
+    data
+  })
+}
+
+// reset password
+export function resetPassword(data) {
+  return request({
+    url: '/user/pwd/reset',
+    method: 'put',
+    data
+  })
+}
+
+// get all users
+export function getAllUsers(params) {
+  return request({
+    url: '/sys-user',
+    method: 'get',
+    params
+  })
+}
+
+export function getUserInfoByUserId(userId) {
+  return request({
+    url: `/sys-user/${userId}`,
+    method: 'get'
+  })
+}
+
+export function updateUserInfo(data) {
+  return request({
+    url: `/sys-user/`,
     method: 'put',
     data
   })
